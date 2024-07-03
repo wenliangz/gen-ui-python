@@ -22,15 +22,17 @@ def weather_data(city: str, state: str, country: str = "usa") -> dict:
     geocode_api_key = os.environ.get("GEOCODE_API_KEY")
     if not geocode_api_key:
         raise ValueError("Missing GEOCODE_API_KEY secret.")
-
-    geocode_url = f"https://geocode.xyz/{city.lower()},{state.lower()},{country.lower()}?json=1&auth={geocode_api_key}"
+    # geocode_url = f"https://geocode.xyz/{city.lower()},{state.lower()},{country.lower()}?json=1&auth={geocode_api_key}"
+    geocode_url = f"http://api.openweathermap.org/geo/1.0/direct?q={city.lower()},{state.lower()},{country.lower()}&limit=5&appid={geocode_api_key}"
     geocode_response = requests.get(geocode_url)
     if not geocode_response.ok:
         print("No geocode data found.")
         raise ValueError("Failed to get geocode data.")
     geocode_data = geocode_response.json()
-    latt = geocode_data["latt"]
-    longt = geocode_data["longt"]
+    # latt = geocode_data["latt"]
+    # longt = geocode_data["longt"]
+    latt = geocode_data[0]["lat"]
+    longt = geocode_data[0]["lon"]
 
     weather_gov_url = f"https://api.weather.gov/points/{latt},{longt}"
     weather_gov_response = requests.get(weather_gov_url)
@@ -55,3 +57,7 @@ def weather_data(city: str, state: str, country: str = "usa") -> dict:
         "country": country,
         "temperature": today_forecast["temperature"],
     }
+
+
+if __name__ == "__main__":
+    weather_data('Boston','MA')

@@ -4,7 +4,8 @@ from langchain.output_parsers.openai_tools import JsonOutputToolsParser
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables import RunnableConfig
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_openai import AzureChatOpenAI as ChatOpenAI
 from langgraph.graph import END, StateGraph
 from langgraph.graph.graph import CompiledGraph
 

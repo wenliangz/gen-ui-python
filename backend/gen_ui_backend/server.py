@@ -6,10 +6,13 @@ from langserve import add_routes
 
 from gen_ui_backend.chain import create_graph
 from gen_ui_backend.types import ChatInputType
+import os
 
 # Load environment variables from .env file
 load_dotenv()
-
+os.environ["AZURE_OPENAI_ENDPOINT"] = os.getenv("AZURE_OPENAI_ENDPOINT")
+os.environ["AZURE_OPENAI_API_KEY"] = os.getenv("AZURE_OPENAI_API_KEY")
+os.environ["GEOCODE_API_KEY"] = os.getenv("GEOCODE_API_KEY")
 
 def start() -> None:
     app = FastAPI(
@@ -38,4 +41,4 @@ def start() -> None:
 
     add_routes(app, runnable, path="/chat", playground_type="chat")
     print("Starting server...")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)
